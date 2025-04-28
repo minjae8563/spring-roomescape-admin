@@ -63,10 +63,10 @@ public class JdbcReservationRepository implements ReservationRepository {
         );
     }
 
-    public boolean isExistReservationByDateAndTIme(ReservationRequest reservationRequest) {
+    public boolean isExistReservationByDateAndTIme(Reservation reservation) {
         String query = "SELECT COUNT(*) FROM RESERVATION WHERE DATE = ? AND TIME_ID = ?";
         int count = jdbcTemplate.queryForObject(query, Integer.class,
-                reservationRequest.getDate(), reservationRequest.getTimeId());
+                reservation.getDate(), reservation.getTime().getId());
         return count > 0;
     }
 

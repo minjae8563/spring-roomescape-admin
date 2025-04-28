@@ -7,6 +7,6 @@ public interface ReservationRepository {
     Reservation saveReservation(Reservation wantToSaveReservation);
     void deleteReservation(Long wantToDeleteId);
     List<Reservation> findAllReservations();
-    boolean isExistReservationByDateAndTIme(ReservationRequest wantToSaveReservationRequest);
+    boolean isExistReservationByDateAndTIme(Reservation wantToSaveReservation);
     boolean isExistReservationById(Long wantToDeleteReservation);
 }

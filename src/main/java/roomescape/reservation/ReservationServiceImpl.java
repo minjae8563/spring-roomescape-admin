@@ -18,15 +18,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation saveReservation(ReservationRequest wantToSaveReservationRequest) {
-        String name = wantToSaveReservationRequest.getName();
-        LocalDate date = wantToSaveReservationRequest.getDate();
-        Long timeId = wantToSaveReservationRequest.getTimeId();
-
-        ReservationTime request = reservationTimeService.findById(timeId);
-
-        Reservation wantToSaveReservation = new Reservation(
-                name, date, request
-        );
+        Reservation wantToSaveReservation = createReservationFromRequest(wantToSaveReservationRequest);
 
         return reservationRepository.saveReservation(wantToSaveReservation);
     }
@@ -43,9 +35,21 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void validateSaveReservationAvailability(ReservationRequest wantToSaveReservationRequest) {
-        if (reservationRepository.isExistReservationByDateAndTIme(wantToSaveReservationRequest)) {
+        Reservation wantToSaveReservation = createReservationFromRequest(wantToSaveReservationRequest);
+
+        if (reservationRepository.isExistReservationByDateAndTIme(wantToSaveReservation)) {
             throw new IllegalArgumentException("[ERROR] 이미 예약되었어요. 다른 날짜를 골라주세요.");
         }
+    }
+
+    private Reservation createReservationFromRequest(ReservationRequest wantToSaveReservationRequest) {
+        String name = wantToSaveReservationRequest.getName();
+        LocalDate date = wantToSaveReservationRequest.getDate();
+        Long timeId = wantToSaveReservationRequest.getTimeId();
+
+        ReservationTime request = reservationTimeService.findById(timeId);
+
+        return new Reservation(name, date, request);
     }
 
     @Override
