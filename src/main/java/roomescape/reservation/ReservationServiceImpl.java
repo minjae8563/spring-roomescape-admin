@@ -35,8 +35,7 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.findAllReservations();
     }
 
-    @Override
-    public void validateSaveReservationAvailability(ReservationRequest wantToSaveReservationRequest) {
+    private void validateSaveReservationAvailability(ReservationRequest wantToSaveReservationRequest) {
         Reservation wantToSaveReservation = createReservationFromRequest(wantToSaveReservationRequest);
 
         if (reservationRepository.isExistReservationByDateAndTIme(wantToSaveReservation)) {
@@ -44,8 +43,7 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
-    @Override
-    public void validateDeleteReservationAvailability(Long wantToDeleteReservationId) {
+    private void validateDeleteReservationAvailability(Long wantToDeleteReservationId) {
         if (!reservationRepository.isExistReservationById(wantToDeleteReservationId)) {
             throw new IllegalArgumentException("[ERROR] 존재하지 않는 예약이에요. 확인해 주세요.");
         }

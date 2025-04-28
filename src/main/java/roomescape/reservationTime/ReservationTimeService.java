@@ -7,6 +7,4 @@ public interface ReservationTimeService {
     void deleteReservation(Long wantToDeleteId);
     List<ReservationTime> findAllReservationTime();
     ReservationTime findById(Long timeId);
-    void validateSaveReservationTimeAvailability(ReservationTime wantToValidateReservationTime);
-    void validateDeleteReservationTimeAvailability(Long wantToValidateReservationTimeId);
 }

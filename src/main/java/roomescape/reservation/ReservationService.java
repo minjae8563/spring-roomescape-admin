@@ -7,6 +7,4 @@ public interface ReservationService {
     Reservation saveReservation(ReservationRequest wantToSaveReservationRequest);
     void deleteReservation(Long wantToDeleteId);
     List<Reservation> findAllReservations();
-    void validateSaveReservationAvailability(ReservationRequest wantToSaveReservationRequest);
-    void validateDeleteReservationAvailability(Long wantToDeleteReservationId);
 }
