@@ -33,8 +33,13 @@ public class TimeController {
     public ResponseEntity<ReservationTime> createStartTime(
             @RequestBody ReservationTime startTime
     ) {
-        validateReservationTimeAvailability(startTime);
-        ReservationTime newReservationTime = reservationTimeService.savaReservationTime(startTime);
+        ReservationTime newReservationTime;
+        try {
+            newReservationTime = reservationTimeService.savaReservationTime(startTime);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         return ResponseEntity.ok().body(newReservationTime);
     }
 
@@ -42,28 +47,14 @@ public class TimeController {
     public ResponseEntity<Void> deleteReservationTime(
             @PathVariable Long id
     ) {
-        validateDeleteReservationTimeAvailability(id);
-
-        reservationTimeService.deleteReservation(id);
-        return ResponseEntity.ok().build();
-    }
-
-    private void validateDeleteReservationTimeAvailability(Long id) {
         try {
-            reservationTimeService.validateDeleteReservationTimeAvailability(id);
+            reservationTimeService.deleteReservation(id);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-    }
 
-    private void validateReservationTimeAvailability(ReservationTime startTime) {
-        try {
-            reservationTimeService.validateSaveReservationTimeAvailability(startTime);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+        return ResponseEntity.ok().build();
     }
 
 }

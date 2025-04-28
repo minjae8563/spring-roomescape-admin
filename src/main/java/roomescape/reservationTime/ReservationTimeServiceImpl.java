@@ -12,11 +12,13 @@ public class ReservationTimeServiceImpl implements ReservationTimeService {
 
     @Override
     public ReservationTime savaReservationTime(ReservationTime wantToSaveReservationTime) {
+        validateSaveReservationTimeAvailability(wantToSaveReservationTime);
         return reservationTimeRepository.saveReservationTime(wantToSaveReservationTime);
     }
 
     @Override
     public void deleteReservation(Long wantToDeleteId) {
+        validateDeleteReservationTimeAvailability(wantToDeleteId);
         reservationTimeRepository.deleteReservationTime(wantToDeleteId);
     }
 

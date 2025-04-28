@@ -18,6 +18,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation saveReservation(ReservationRequest wantToSaveReservationRequest) {
+        validateSaveReservationAvailability(wantToSaveReservationRequest);
         Reservation wantToSaveReservation = createReservationFromRequest(wantToSaveReservationRequest);
 
         return reservationRepository.saveReservation(wantToSaveReservation);
@@ -25,6 +26,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void deleteReservation(Long wantToDeleteId) {
+        validateDeleteReservationAvailability(wantToDeleteId);
         reservationRepository.deleteReservation(wantToDeleteId);
     }
 
@@ -42,6 +44,13 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
+    @Override
+    public void validateDeleteReservationAvailability(Long wantToDeleteReservationId) {
+        if (!reservationRepository.isExistReservationById(wantToDeleteReservationId)) {
+            throw new IllegalArgumentException("[ERROR] 존재하지 않는 예약이에요. 확인해 주세요.");
+        }
+    }
+
     private Reservation createReservationFromRequest(ReservationRequest wantToSaveReservationRequest) {
         String name = wantToSaveReservationRequest.getName();
         LocalDate date = wantToSaveReservationRequest.getDate();
@@ -50,12 +59,5 @@ public class ReservationServiceImpl implements ReservationService {
         ReservationTime request = reservationTimeService.findById(timeId);
 
         return new Reservation(name, date, request);
-    }
-
-    @Override
-    public void validateDeleteReservationAvailability(Long wantToDeleteReservationId) {
-        if (!reservationRepository.isExistReservationById(wantToDeleteReservationId)) {
-            throw new IllegalArgumentException("[ERROR] 존재하지 않는 예약이에요. 확인해 주세요.");
-        }
     }
 }
