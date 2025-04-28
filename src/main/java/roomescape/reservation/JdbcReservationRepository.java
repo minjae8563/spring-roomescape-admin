@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import roomescape.dto.ReservationRequest;
 import roomescape.reservationTime.ReservationTime;
 
 public class JdbcReservationRepository implements ReservationRepository {
